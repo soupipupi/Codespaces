@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Le ganas al animal?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Descubre · Mide · Compara</p>
+    <h1 class="display">¿Le ganas<br>al <em>animal</em>?</h1>
+    <p class="lead">¿Qué tan rápido eres? Explora cómo se mueven distintos animales a su máxima velocidad y luego mide tu propia rapidez para descubrir a cuáles podrías superar.</p>
+  </header>
+
+  <section class="intro-section" id="pista" aria-labelledby="intro-title">
+    <div class="sec-head"><h2 class="display" id="intro-title">La pista</h2><span class="eyebrow">Explora</span><span class="intro-time mono" id="intro-time">0,0 s</span></div>
+    <p class="sec-note">Seis competidores parten juntos. El gráfico muestra la distancia que recorrería cada uno en ocho segundos manteniendo su velocidad máxima aproximada. Después podrás cambiar los participantes desde el ranking.</p>
+    <div class="intro-viz">
+      <div class="intro-chart-shell">
+        <svg id="intro-svg" viewBox="0 0 900 410" role="img" aria-label="Gráfico interactivo de distancia recorrida según el tiempo durante ocho segundos, con hasta seis competidores elegidos desde el ranking"></svg>
+      </div>
+      <div id="intro-legend" class="intro-legend" aria-label="Competidores representados"></div>
+      <div class="intro-selected" id="intro-selected" aria-live="polite"></div>
+      <div class="controls intro-actions">
+        <button class="btn-go" id="intro-replay">▶ Iniciar simulación</button>
+        <button id="intro-reset">↺ Restablecer animales</button>
+        <button id="intro-sound" aria-pressed="false">🔇 Activar sonido</button>
+        <span class="intro-status" id="intro-status" role="status">6 de 6 competidores</span>
+      </div>
+      <div class="intro-winner" id="intro-winner" hidden aria-live="polite"></div>
+      <div class="intro-explain">
+        <strong>Cómo leer La pista</strong>
+        <div class="intro-key"><span><b>→ Tiempo:</b> los segundos que pasan, de 0 a 8.</span><span><b>↑ Distancia:</b> los metros recorridos.</span><span><b>↗ Inclinación:</b> una línea más empinada indica mayor velocidad.</span><span><b>● Cada color:</b> identifica a un participante.</span></div>
+        <p>Haz clic en un participante para destacarlo. El halcón alcanza su máxima velocidad en picada; las velocidades de esta comparación se mantienen constantes solo en la simulación.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2 class="display">Tu turno</h2><p class="eyebrow">Mide tu rapidez</p></div>
+    <p class="sec-note">Elige cómo probar tu rapidez: el teclado mide pulsaciones (una equivalencia lúdica), el acelerómetro estima cadencia y el GPS estima velocidad real de desplazamiento.</p>
+
+    <div class="modes" id="modes">
+      <button class="mode" data-mode="motion" aria-pressed="true">
+        <span class="mi">📱</span><span class="mt">Movimiento</span>
+        <span class="md">Celular en la mano y corre en el lugar. Mide tu cadencia con el acelerómetro. <b>Requiere abrir la página en tu propio sitio.</b></span>
+      </button>
+      <button class="mode" data-mode="gps" aria-pressed="false">
+        <span class="mi">📍</span><span class="mt">GPS</span>
+        <span class="md">Sal a la calle y corre de verdad. Es la única que mide velocidad real. <b>Requiere abrir la página en tu propio sitio.</b></span>
+      </button>
+      <button class="mode" data-mode="tap" aria-pressed="false">
+        <span class="mi">⌨️</span><span class="mt">Teclado</span>
+        <span class="md">Sin celular: aprieta espacio. Mide tu dedo, no tus piernas.</span>
+      </button>
+    </div>
+
+    <div class="duel">
+      <div class="tapbox">
+        <button class="tapbtn" id="tap">Medir</button>
+        <div class="tapmeta"><span id="tapCount">— pasos</span><span id="tapTime">10,0 s</span></div>
+        <div class="live-read" id="liveRead">
+          <div><span class="lk" id="lkA">Cadencia</span><span class="lv mono" id="lvA">0,0</span><span class="lu" id="luA">pasos/s</span></div>
+          <div><span class="lk" id="lkB">Ahora</span><span class="lv mono" id="lvB">0,0</span><span class="lu" id="luB">km/h</span></div>
+        </div>
+        <label class="stride" id="strideWrap" for="stride">
+          <span>Zancada supuesta: <b class="mono" id="strideVal">1,80</b> m</span>
+          <input type="range" id="stride" min="0.4" max="2.6" step="0.05" value="1.8">
+        </label>
+        <details class="diag"><summary>No me funciona el sensor</summary>
+          <div class="body">
+            <button id="diagRun" style="width:100%">Revisar este aparato</button>
+            <ul id="diagList"></ul>
+            <div class="fix" id="diagFix" hidden></div>
+          </div>
+        </details>
+        <p class="status" id="status">Correr en el lugar no te mueve del suelo, así que el sensor solo puede darte la <em>cadencia</em>. La velocidad sale de multiplicarla por la zancada que elijas aquí abajo: es una estimación, igual que la de cualquier reloj deportivo.</p>
+      </div>
+      <div class="verdict" id="verdict">
+        <div class="eyebrow">Tu velocidad</div>
+        <div class="big" id="myspeed">— km/h</div>
+        <p class="beat" id="beatmsg">Todavía no te mides. Un adulto trotando anda en 12 km/h; Usain Bolt tocó 44,7 km/h en 2009 y sigue siendo el récord humano.</p>
+        <div id="result-rival" class="result-rival" hidden></div>
+        <ul id="beatlist"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2 class="display">El ranking</h2><p class="eyebrow">Filtra y compara</p></div>
+    <p class="sec-note">Explora las velocidades y haz clic en una barra para agregar o quitar ese participante de La pista (máximo 6). Después de tu prueba también podrás elegir «Tú». Cambia entre escala lineal y logarítmica para comparar.</p>
+
+    <div class="controls" id="filters">
+      <button class="chip" data-medio="tierra" aria-pressed="true" style="color:var(--tierra)"><span class="dot"></span>Tierra</button>
+      <button class="chip" data-medio="aire" aria-pressed="true" style="color:var(--aire)"><span class="dot"></span>Aire</button>
+      <button class="chip" data-medio="agua" aria-pressed="true" style="color:var(--agua)"><span class="dot"></span>Agua</button>
+      <span class="spacer"></span>
+      <span class="eyebrow">Escala</span>
+      <div class="seg" id="scale">
+        <button data-scale="lin" aria-pressed="true">Lineal</button>
+        <button data-scale="log" aria-pressed="false">Logarítmica</button>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><i style="background:var(--tierra)"></i> Tierra</span>
+      <span><i style="background:var(--aire)"></i> Aire</span>
+      <span><i style="background:var(--agua)"></i> Agua</span>
+      <span><i style="background:var(--tu)"></i> Tú</span>
+      <span style="color:var(--ink-3)">· en La pista: borde claro</span>
+    </div>
+
+    <div class="axis" id="axis"></div>
+    <div class="bars" id="bars"><div class="grid" id="grid"></div></div>
+    <p class="empty" id="empty" hidden>No queda ningún animal con esos filtros.</p>
+
+    <div class="callout" id="callout"><b>Escala lineal.</b> El halcón se come todo el ancho y los últimos veinte animales son una raya de un píxel. No es un problema de diseño gráfico: es que 389 y 0,048 no caben en la misma regla. Cambia a logarítmica y mira lo que pasa.</div>
+
+    <details>
+      <summary>Ver los datos en tabla</summary>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Animal</th><th>Medio</th><th>Clase</th><th style="text-align:right">km/h</th><th style="text-align:right">m/s</th><th style="text-align:right">Pasos/s</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2 class="display">Cómo suena</h2></div>
+    <p class="sec-note">La sonificación representa la velocidad mediante altura, ritmo y timbre. Son sonidos sintéticos asociados a los datos, no grabaciones de animales.</p>
+    <dl class="map">
+      <dt>Tono → velocidad</dt>
+      <dd>La velocidad se mapea en escala logarítmica a cuatro octavas: 80 Hz para el caracol, 1.280 Hz para el halcón. Un animal grave es un animal lento.</dd>
+      <dt>Ritmo → rapidez relativa</dt>
+      <dd>Las pulsaciones se vuelven más frecuentes a medida que aumenta la velocidad. Es una codificación de los datos, no la frecuencia real de pasos del animal.</dd>
+      <dt>Timbre → medio</dt>
+      <dd>Se emplean sonidos distintos para tierra, aire y agua. El timbre permite reconocer el tipo de desplazamiento sin mirar el color.</dd>
+      <dt>Durante la simulación</dt>
+      <dd>El sonido es opcional y permite escuchar el animal seleccionado mientras avanza su línea de distancia recorrida.</dd>
+    </dl>
+  </section><footer>
+    <p>IIC2026 · Visualización de Información. Velocidades máximas aproximadas recopiladas de fuentes generales; algunas cifras son discutidas y requieren referencias específicas antes de la entrega. Las comparaciones de la demostración suponen velocidad máxima constante.</p>
+  </footer>
+
+</div>
+
+<script src="js/velocidad.js" defer></script>
+
+</body>
+</html>
